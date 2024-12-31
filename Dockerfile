@@ -10,7 +10,7 @@ RUN npm install -g pnpm
 # Copy package manager files
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
+# Install all dependencies
 RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the application files
@@ -28,13 +28,15 @@ WORKDIR /app
 # Install PNPM globally
 RUN npm install -g pnpm
 
-# Copy only the necessary files for runtime
+# Copy only necessary files from the builder stage
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
 
-# Install production dependencies
+# Install only production dependencies
 RUN pnpm install --prod
 
+# Expose the port the app uses
+EXPOSE 3000
 
 # Command to run the application
 CMD ["node", "dist/main.js"]
