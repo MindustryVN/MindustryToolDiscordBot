@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json({ verify: VerifyDiscordRequest(config.PUBLIC_KEY) }));
 
+logger.info(config);
+
 app.post('/interactions', interaction);
 
 app.listen(PORT, () => {
