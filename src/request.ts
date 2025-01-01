@@ -4,9 +4,14 @@ import { verifyKey } from 'discord-interactions';
 import { Request, Response } from 'express';
 
 export function VerifyDiscordRequest(clientKey: string) {
-	return function (req: Request, res: Response, buf: any) {
+	return async function (req: Request, res: Response, buf: Buffer) {
 		const signature = req.get('X-Signature-Ed25519') as string;
 		const timestamp = req.get('X-Signature-Timestamp') as string;
+
+		if (!signature || !timestamp) {
+			res.status(401).send('Missing required headers');
+			throw new Error('Missing required headers for verification');
+		}
 
 		const isValidRequest = verifyKey(buf, signature, timestamp, clientKey);
 
