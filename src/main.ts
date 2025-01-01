@@ -16,6 +16,7 @@ app.use(express.json({ verify: VerifyDiscordRequest(config.PUBLIC_KEY) }));
 app.use(morgan('combined'));
 logger.info(config);
 
+//@ts-expect-error Wtf
 app.route('/interactions').post(interaction);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

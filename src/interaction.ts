@@ -7,8 +7,7 @@ export const interaction = (req: Request, res: Response) => {
 
 	switch (type) {
 		case InteractionType.PING: {
-			res.json({ type: InteractionResponseType.PONG });
-			break;
+			return res.send({ type: InteractionResponseType.PONG });
 		}
 
 		case InteractionType.APPLICATION_COMMAND: {
@@ -16,7 +15,7 @@ export const interaction = (req: Request, res: Response) => {
 
 			logger.info(req.body);
 			if (name === 'link') {
-				res.json({
+				return res.json({
 					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 					data: {
 						content: 'Authorize your Quests of Wumpus account with your Discord profile.',
@@ -42,7 +41,7 @@ export const interaction = (req: Request, res: Response) => {
 
 		default: {
 			logger.info(`Invalid type: ${type}`);
-			res.status(400).json(null);
+			return res.status(400).json(null);
 		}
 	}
 };
