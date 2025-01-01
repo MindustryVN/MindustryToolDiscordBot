@@ -6,7 +6,7 @@ export const interaction = (req: Request, res: Response): any => {
 	const { type, data } = req.body;
 
 	if (type === InteractionType.PING) {
-		return res.json({ type: InteractionResponseType.PONG });
+		return res.status(200).json({ type: InteractionResponseType.PONG });
 	}
 
 	logger.info(req.body);
@@ -37,4 +37,6 @@ export const interaction = (req: Request, res: Response): any => {
 			});
 		}
 	}
+
+	return res.status(400).json(null);
 };
